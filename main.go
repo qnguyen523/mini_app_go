@@ -34,8 +34,8 @@ func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/login", handleGoogleLogin)
 	http.HandleFunc("/callback", handleGoogleCallback)
-	fmt.Println("Server started at localhost:80")
-	log.Fatal(http.ListenAndServe(":80", nil))
+	fmt.Println("Server started at localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 // Display the login page with a Google login link
@@ -71,7 +71,7 @@ func handleGoogleCallback(w http.ResponseWriter, r *http.Request) {
 	}
 	// Display user information (you can store this info as needed)
 	fmt.Fprintf(w, "User info: %v\n", userInfo)
-	fmt.Println("token", token)
+	// fmt.Println("token", token)
 }
 
 // Get user information from Google's UserInfo API
