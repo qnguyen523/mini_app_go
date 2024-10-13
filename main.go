@@ -7,15 +7,17 @@ import (
 	"log"
 	"net/http"
 
+	"os"
+
+	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	"os"
 )
 
 // Store the OAuth2 configuration globally
 var googleOauthConfig = &oauth2.Config{
-	RedirectURL:  "http://localhost:8080/callback", // Set your redirect URL here
-	ClientID:     os.Getenv("ClientID"), // Replace with your Google Client ID
+	RedirectURL:  "http://localhost:80/callback", // Set your redirect URL here
+	ClientID:     os.Getenv("ClientID"),          // Replace with your Google Client ID
 	ClientSecret: os.Getenv("ClientSecret"),      // Replace with your Google Client Secret
 	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
 	Endpoint:     google.Endpoint,
@@ -23,6 +25,8 @@ var googleOauthConfig = &oauth2.Config{
 var randomState = "random" // Use a secure random state in production
 
 func main() {
+	// load environment variables
+	godotenv.Load(".env.local")
 	// Handle the index and auth routes
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/login", handleGoogleLogin)
