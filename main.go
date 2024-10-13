@@ -27,8 +27,8 @@ func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/login", handleGoogleLogin)
 	http.HandleFunc("/callback", handleGoogleCallback)
-	fmt.Println("Server started at localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	fmt.Println("Server started at localhost:80")
+	log.Fatal(http.ListenAndServe(":80", nil))
 }
 
 // Display the login page with a Google login link
