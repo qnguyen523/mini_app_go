@@ -20,12 +20,10 @@ var randomState string
 func main() {
 	// load environment variables
 	godotenv.Load(".env.local")
-	fmt.Println("ClientSecret", os.Getenv("ClientSecret"))
-	fmt.Println("ClientID", os.Getenv("ClientID"))
 
 	// Store the OAuth2 configuration globally
 	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  "http://localhost:80/callback", // Set your redirect URL here
+		RedirectURL:  "http://localhost:8080/callback", // Set your redirect URL here
 		ClientID:     os.Getenv("ClientID"),          // Replace with your Google Client ID
 		ClientSecret: os.Getenv("ClientSecret"),      // Replace with your Google Client Secret
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
@@ -37,8 +35,8 @@ func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/login", handleGoogleLogin)
 	http.HandleFunc("/callback", handleGoogleCallback)
-	fmt.Println("Server started at localhost:80")
-	log.Fatal(http.ListenAndServe(":80", nil))
+	fmt.Println("Server started at localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 // Display the login page with a Google login link
