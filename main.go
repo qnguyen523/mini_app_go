@@ -22,9 +22,9 @@ func main() {
 	godotenv.Load(".env.local")
 	// Store the OAuth2 configuration globally
 	googleOauthConfig = &oauth2.Config{
-		RedirectURL:  os.Getenv("RedirectURL"), // Set your redirect URL here
-		ClientID:     os.Getenv("ClientID"),          // Replace with your Google Client ID
-		ClientSecret: os.Getenv("ClientSecret"),      // Replace with your Google Client Secret
+		RedirectURL:  os.Getenv("RedirectURL"),  // Set your redirect URL here
+		ClientID:     os.Getenv("ClientID"),     // Replace with your Google Client ID
+		ClientSecret: os.Getenv("ClientSecret"), // Replace with your Google Client Secret
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
 		Endpoint:     google.Endpoint,
 	}
@@ -52,6 +52,7 @@ func handleGoogleLogin(w http.ResponseWriter, r *http.Request) {
 
 // Handle the OAuth 2.0 callback and get the user's info
 func handleGoogleCallback(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	// verify the state
 	if r.FormValue("state") != randomState {
 		http.Error(w, "State is invalid", http.StatusBadRequest)
@@ -70,8 +71,10 @@ func handleGoogleCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Display user information (you can store this info as needed)
-	fmt.Fprintf(w, "User info: %v\n", userInfo)
+	// fmt.Fprintf(w, "User info: %v\n", userInfo)
+
 	// fmt.Println("token", token)
+	json.NewEncoder(w).Encode(userInfo)
 }
 
 // Get user information from Google's UserInfo API
