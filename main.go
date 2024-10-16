@@ -12,6 +12,7 @@ import (
 	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
+	"googleauth/models"
 )
 
 var googleOauthConfig *oauth2.Config
@@ -29,6 +30,8 @@ func main() {
 		Endpoint:     google.Endpoint,
 	}
 	randomState = "random" // Use a secure random state in production
+	// connect to database
+	models.Connect()
 
 	// Handle the index and auth routes
 	http.HandleFunc("/", handleIndex)
@@ -72,6 +75,23 @@ func handleGoogleCallback(w http.ResponseWriter, r *http.Request) {
 	}
 	// Display user information (you can store this info as needed)
 	// fmt.Fprintf(w, "User info: %v\n", userInfo)
+	var user models.User
+	models.Database.Where("id = ?", userInfo["id"]).First(&user)
+	if user.ID == "" {
+		fmt.Println("User not found")
+		// create a new user
+		newUser := models.User{
+			ID:        userInfo["id"].(string),
+			Email:     userInfo["email"].(string),
+			Picture:   userInfo["picture"].(string),
+			VerifiedEmail: userInfo["verified_email"].(bool),
+		}
+		fmt.Println(newUser)
+		// Insert user into database
+		if err := models.Database.Create(&newUser).Error; err != nil {
+			http.Error(w, "Failed to create user", http.StatusInternalServerError)
+		}
+	}
 
 	// fmt.Println("token", token)
 	json.NewEncoder(w).Encode(userInfo)
