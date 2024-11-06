@@ -34,7 +34,7 @@ jobs:
 
       # Step 5: Build Docker image
       - name: Build Docker image
-        docker run -it --rm -p 8080:8080 qnguyen523/mini_go_app_app:latest
+        run: docker build -t qnguyen523/mini_go_app_app:latest .
 
       # Step 6: Log in to Docker Hub
       - name: Log in to Docker Hub
