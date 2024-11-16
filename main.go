@@ -1,8 +1,6 @@
 package main
 
 import (
-	// "context"
-	// "encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -20,11 +18,7 @@ func main() {
 	models.Connect()
 	// set up routes
 	controllers.SetupRoutes()
-	// set up CRUD for Word model
 
 	fmt.Println("Server started at localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
-
-	// CRUD operations examples
-	// controllers.CreateWord(models.Database)
 }
