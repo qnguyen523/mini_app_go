@@ -23,5 +23,5 @@ func Connect() {
 	}	else {
 		fmt.Println("Successfully connected to the database")
 	}
-	Database.AutoMigrate(&User{})
+	Database.AutoMigrate(&User{}, &Word{}, &Definition{}, &PartOfSpeech{}, &ExampleSentence{})
 }

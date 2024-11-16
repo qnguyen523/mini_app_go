@@ -1,7 +1,5 @@
 package models
 
-// import "time"
-
 type User struct {
 	ID       string   `gorm:"primaryKey;unique" json:"id"`
 	Email    string `gorm:"unique" json:"email"`
