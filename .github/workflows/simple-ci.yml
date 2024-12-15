@@ -45,3 +45,10 @@ jobs:
       # Step 7: Push Docker image to Docker Hub
       - name: Push Docker image
         run: docker push qnguyen523/mini_go_app_app:latest
+      # Step 8: Deploy the application
+      # - name: Deploy the application
+      #   run: |
+      #     echo "Deploying the application..."
+      #     kubectl apply -f deployment.yaml
+      #     kubectl apply -f service.yaml
+
